@@ -1110,10 +1110,16 @@ var range,selection;
             }
         }
 
-        protected internal override void INTERNAL_OnDetachedFromVisualTree()
+        protected internal override void INTERNAL_OnAttachedToVisualTree()
         {
-            base.INTERNAL_OnDetachedFromVisualTree();
-            UnapplyTemplate(this);
+            base.INTERNAL_OnAttachedToVisualTree();
+
+            if (this.Template != null)
+            {
+                object local = this.ReadLocalValueInternal(TemplateProperty);
+                this.SetValue(TemplateProperty, null);
+                this.SetValue(TemplateProperty, local);
+            }
         }
 
         #region Fix "input" event not working under IE.
